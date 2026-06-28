@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para vickyy</title>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -16,6 +17,16 @@
             align-items: center;
             height: 100vh;
             perspective: 1000px;
+        }
+
+        /* Contenedor para que las partículas queden al fondo */
+        #tsparticles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
 
         .texto-flotante {
@@ -81,7 +92,8 @@
 </head>
 <body>
 
-    <!-- Música de fondo -->
+    <div id="tsparticles"></div>
+
     <audio id="musica-fondo" src="mai.mp3" loop autoplay></audio>
 
     <div class="texto-flotante">
@@ -100,8 +112,27 @@
     </div>
 
     <script>
-        // La música intentará reproducirse al cargar. 
-        // Si el motor de tu app tiene permisos, sonará de una vez.
+        // Configuración de las partículas
+        tsParticles.load("tsparticles", {
+            particles: {
+                number: { value: 60 },
+                color: { value: "#b300ff" }, // Púrpura acorde al diseño
+                shape: { type: "circle" },
+                opacity: { value: 0.5 },
+                size: { value: 2 },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    outModes: "out"
+                }
+            },
+            interactivity: {
+                events: { onhover: { enable: true, mode: "repulse" } }
+            }
+        });
+
+        // Música
         const musica = document.getElementById('musica-fondo');
         window.addEventListener('load', () => {
             musica.play().catch(e => console.log("Esperando interacción para audio"));
