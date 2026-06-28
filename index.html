@@ -18,12 +18,55 @@
             height: 100vh;
         }
 
+        /* Pantalla de inicio superpuesta */
+        #pantalla-inicio {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #0d0d0d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100; /* Por encima de absolutamente todo */
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        /* Estilo del botón de inicio */
+        .btn-inicio {
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-family: 'Georgia', serif;
+            color: #fff;
+            background: transparent;
+            border: 2px solid #6a23e3;
+            border-radius: 25px;
+            cursor: pointer;
+            text-shadow: 0 0 5px rgba(187, 0, 255, 0.5);
+            box-shadow: 0 0 15px rgba(106, 35, 227, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-inicio:hover {
+            background-color: #6a23e3;
+            box-shadow: 0 0 25px rgba(187, 0, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* Ocultar pantalla de inicio con suavidad */
+        .oculto {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
         /* Estilos del texto flotante */
         .texto-flotante {
             color: #6a23e3;
             font-size: 3rem;
             text-align: center;
-            text-shadow: 0 0 15px rgba(187, 0, 255, 0.8); /* Resplandor rojo */
+            text-shadow: 0 0 15px rgba(187, 0, 255, 0.8); /* Resplandor */
             z-index: 10; /* Mantiene el texto por encima de las flores */
             /* Llamamos a la animación de flotar */
             animation: flotar 4s ease-in-out infinite;
@@ -55,6 +98,12 @@
 </head>
 <body>
 
+    <div id="pantalla-inicio">
+        <button class="btn-inicio" id="btn-comenzar">Comenzar ✨</button>
+    </div>
+
+    <audio id="musica-fondo" src="mai.mp3" loop></audio>
+
     <div class="texto-flotante">
         <h1>VICTORIA :D</h1>
     </div>
@@ -63,40 +112,49 @@
 
     <script>
         const contenedor = document.getElementById('contenedor-flores');
+        const pantallaInicio = document.getElementById('pantalla-inicio');
+        const btnComenzar = document.getElementById('btn-comenzar');
+        const musica = document.getElementById('musica-fondo');
         
         // --- PASO 1: MODIFICA ESTA LISTA ---
         // Pon aquí los nombres exactos de tus archivos de imagen
         const imagenesFlores = ['b.png', 'b1.png', 'b2.png']; 
 
         function crearFlor() {
-            // En lugar de un div con texto, creamos un elemento <img>
             const flor = document.createElement('img');
             flor.classList.add('flor');
             
             // --- PASO 2: SELECCIÓN ALEATORIA ---
-            // Elegimos una imagen al azar de tu lista
             const imagenAleatoria = imagenesFlores[Math.floor(Math.random() * imagenesFlores.length)];
-            flor.src = imagenAleatoria; // Asignamos la imagen a la etiqueta <img>
+            flor.src = imagenAleatoria; 
             
-            // Mantenemos la lógica de posición y tamaño aleatorios
             flor.style.left = Math.random() * 100 + 'vw';
             flor.style.animationDuration = Math.random() * 4 + 3 + 's'; 
             
-            // Ajustamos el ancho de las imágenes (entre 20px y 50px)
             const ancho = Math.random() * 30 + 20 + 'px';
             flor.style.width = ancho;
-            flor.style.height = 'auto'; // Mantiene la proporción
+            flor.style.height = 'auto'; 
 
             contenedor.appendChild(flor);
 
-            // Borramos la imagen después de caer para no saturar
             setTimeout(() => {
                 flor.remove();
             }, 7000);
         }
 
-        // Creamos una nueva flor cada 200 milisegundos
-        setInterval(crearFlor, 200);
+        // --- CONTROLADOR DEL BOTÓN ---
+        btnComenzar.addEventListener('click', () => {
+            // 1. Ocultar la pantalla de bienvenida con la animación CSS
+            pantallaInicio.classList.add('oculto');
+            
+            // 2. Reproducir la música (ahora el navegador lo permite porque hubo un clic)
+            musica.play().catch(error => {
+                console.log("Error al reproducir el audio: ", error);
+            });
+
+            // 3. Iniciar la lluvia de flores de fondo
+            setInterval(crearFlor, 200);
+        });
     </script>
 
 </body>
