@@ -112,31 +112,42 @@
     </div>
 
     <script>
-        // Configuración de las partículas
         tsParticles.load("tsparticles", {
             particles: {
-                number: { value: 60 },
-                color: { value: "#b300ff" }, // Púrpura acorde al diseño
+                number: { value: 40 }, // Menos cantidad, pero más grandes se ven mejor
+                color: { value: "#ffffff" }, // Blanco brillante resalta más
                 shape: { type: "circle" },
-                opacity: { value: 0.5 },
-                size: { value: 2 },
+                opacity: { 
+                    value: 0.8, // Más opacas (menos transparentes)
+                    random: true 
+                },
+                size: { 
+                    value: { min: 4, max: 8 }, // Partículas más grandes (entre 4px y 8px)
+                    random: true 
+                },
                 move: {
                     enable: true,
-                    speed: 1,
+                    speed: 1.5,
                     direction: "none",
                     outModes: "out"
+                },
+                // Esto les da un efecto de "brillo" alrededor
+                shadow: {
+                    enable: true,
+                    color: "#6a23e3",
+                    blur: 5
                 }
             },
             interactivity: {
-                events: { onhover: { enable: true, mode: "repulse" } }
+                events: { 
+                    onhover: { enable: true, mode: "bubble" } // Al pasar el mouse crecen más
+                },
+                modes: {
+                    bubble: { size: 12, distance: 100 }
+                }
             }
         });
-
-        // Música
-        const musica = document.getElementById('musica-fondo');
-        window.addEventListener('load', () => {
-            musica.play().catch(e => console.log("Esperando interacción para audio"));
-        });
     </script>
+
 </body>
 </html>
