@@ -71,16 +71,43 @@
     </div>
 
     <script>
-        const btn = document.getElementById('btn-inicio');
-        const overlay = document.getElementById('overlay');
-        const audio = document.getElementById('musica-fondo');
-
-        btn.addEventListener('click', () => {
-            audio.play(); // Reproducir música
-            overlay.style.display = 'none'; // Ocultar el botón
-        });
-
-        tsParticles.load("tsparticles", { /* ... tu configuración ... */ });
+        tsParticles.load("tsparticles", {
+    particles: {
+        number: { value: 60, density: { enable: true, value_area: 800 } },
+        color: { value: ["#6a23e3", "#ff00ff", "#00d4ff", "#ffffff"] }, // Colores vibrantes
+        shape: { type: "circle" },
+        opacity: { value: 0.7, random: true },
+        size: { value: 5, random: true },
+        // Líneas que conectan las partículas
+        links: {
+            enable: true,
+            distance: 150,
+            color: "#6a23e3",
+            opacity: 0.4,
+            width: 1
+        },
+        move: {
+            enable: true,
+            speed: 2,
+            direction: "none",
+            random: false,
+            straight: false,
+            outModes: "bounce"
+        }
+    },
+    interactivity: {
+        events: {
+            onhover: { enable: true, mode: "grab" }, // Efecto "grab" al pasar el mouse
+            onclick: { enable: true, mode: "push" }
+        },
+        modes: {
+            grab: { distance: 200, links: { opacity: 1 } },
+            push: { quantity: 4 }
+        }
+    },
+    background: { color: "#0d0d0d" }
+});
+        
     </script>
 </body>
 </html>
