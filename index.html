@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi amiga</title>
+    <title>Para vickyy</title>
     <style>
-        /* Reseteamos los márgenes y ocultamos lo que se salga de la pantalla */
         body {
             margin: 0;
             padding: 0;
@@ -16,55 +15,12 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            perspective: 1000px; /* Necesario para la magia 3D */
+            perspective: 1000px;
         }
 
-        /* Pantalla de inicio superpuesta */
-        #pantalla-inicio {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #0d0d0d;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
-
-        /* Estilo del botón de inicio */
-        .btn-inicio {
-            padding: 15px 35px;
-            font-size: 1.2rem;
-            font-family: 'Georgia', serif;
-            color: #fff;
-            background: transparent;
-            border: 2px solid #6a23e3;
-            border-radius: 25px;
-            cursor: pointer;
-            text-shadow: 0 0 5px rgba(187, 0, 255, 0.5);
-            box-shadow: 0 0 15px rgba(106, 35, 227, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .btn-inicio:hover {
-            background-color: #6a23e3;
-            box-shadow: 0 0 25px rgba(187, 0, 255, 0.8);
-            transform: scale(1.05);
-        }
-
-        .oculto {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        /* Estilos del texto flotante (movido hacia arriba) */
         .texto-flotante {
             position: absolute;
-            top: 10%; /* Lo subimos para dar espacio a la esfera */
+            top: 10%;
             color: #6a23e3;
             font-size: 3rem;
             text-align: center;
@@ -74,44 +30,18 @@
         }
 
         @keyframes flotar {
-            0% { transform: translateY(0px); }
+            0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
         }
 
-        /* Flores */
-        .flor {
-            position: absolute;
-            top: -50px;
-            user-select: none;
-            z-index: 1;
-            animation: caer linear infinite;
-        }
-
-        @keyframes caer {
-            to { transform: translateY(110vh) rotate(360deg); }
-        }
-
-        /* --- NUEVO: ESTILOS DE LA ESFERA 3D --- */
         #contenedor-esfera {
             position: absolute;
             top: 55%;
             left: 50%;
             width: 200px;
             height: 200px;
-            transform: translate(-50%, -50%);
-            z-index: 5;
-            
-            /* Estado inicial: invisible y un poco más pequeña */
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.5);
-            transition: opacity 3s ease, transform 3s ease; 
-        }
-
-        /* Clase que se añade con JS para mostrar la esfera */
-        #contenedor-esfera.aparecer {
-            opacity: 1;
             transform: translate(-50%, -50%) scale(1);
+            z-index: 5;
         }
 
         .esfera {
@@ -119,7 +49,6 @@
             height: 100%;
             position: absolute;
             transform-style: preserve-3d;
-            /* Rotación épica continua */
             animation: rotarEsfera 20s linear infinite;
         }
 
@@ -128,31 +57,32 @@
             100% { transform: rotateY(360deg) rotateX(-5deg); }
         }
 
-        /* Estilo de cada foto en la esfera */
         .foto-esfera {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 200px;
-            height: 250px; /* Fotos rectangulares tipo retrato */
+            height: 250px;
             object-fit: cover;
             border-radius: 15px;
             border: 2px solid #6a23e3;
-            box-shadow: 0 0 20px rgba(187, 0, 255, 0.5);
-            /* Calculamos la posición en 3D basada en la variable CSS --i */
+            box-shadow: 0 0 15px rgba(187, 0, 255, 0.3);
             transform: rotateY(calc(var(--i) * 60deg)) translateZ(280px);
-            /* Un reflejo sutil debajo de las fotos para más drama */
-            -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, rgba(0,0,0,0.4));
+        }
+
+        @media (max-width: 768px) {
+            .texto-flotante { font-size: 2rem; top: 5%; }
+            #contenedor-esfera { width: 140px; height: 140px; }
+            .foto-esfera { 
+                width: 140px; 
+                height: 180px; 
+                transform: rotateY(calc(var(--i) * 60deg)) translateZ(170px); 
+            }
         }
     </style>
 </head>
 <body>
 
-    <div id="pantalla-inicio">
-        <button class="btn-inicio" id="btn-comenzar">Comenzar ✨</button>
-    </div>
-
-    <audio id="musica-fondo" src="ruta-de-tu-cancion.mp3" loop></audio>
+    <!-- Música de fondo -->
+    <audio id="musica-fondo" src="mai.mp3" loop autoplay></audio>
 
     <div class="texto-flotante">
         <h1>VICTORIA :D</h1>
@@ -169,58 +99,13 @@
         </div>
     </div>
 
-    <div id="contenedor-flores"></div>
-
     <script>
-        const contenedorFlores = document.getElementById('contenedor-flores');
-        const pantallaInicio = document.getElementById('pantalla-inicio');
-        const btnComenzar = document.getElementById('btn-comenzar');
+        // La música intentará reproducirse al cargar. 
+        // Si el motor de tu app tiene permisos, sonará de una vez.
         const musica = document.getElementById('musica-fondo');
-        const contenedorEsfera = document.getElementById('contenedor-esfera');
-        
-        // --- PASO 1: Imágenes de las flores ---
-        const imagenesFlores = ['b.png', 'b1.png', 'b2.png']; 
-
-        function crearFlor() {
-            const flor = document.createElement('img');
-            flor.classList.add('flor');
-            
-            const imagenAleatoria = imagenesFlores[Math.floor(Math.random() * imagenesFlores.length)];
-            flor.src = imagenAleatoria; 
-            
-            flor.style.left = Math.random() * 100 + 'vw';
-            flor.style.animationDuration = Math.random() * 4 + 3 + 's'; 
-            
-            const ancho = Math.random() * 30 + 20 + 'px';
-            flor.style.width = ancho;
-            flor.style.height = 'auto'; 
-
-            contenedorFlores.appendChild(flor);
-
-            setTimeout(() => {
-                flor.remove();
-            }, 7000);
-        }
-
-        // --- CONTROLADOR DEL BOTÓN ---
-        btnComenzar.addEventListener('click', () => {
-            // 1. Ocultar inicio
-            pantallaInicio.classList.add('oculto');
-            
-            // 2. Reproducir música
-            musica.play().catch(error => {
-                console.log("Error al reproducir el audio: ", error);
-            });
-
-            // 3. Iniciar flores
-            setInterval(crearFlor, 200);
-
-            // 4. NUEVO: Mostrar la esfera 3D después de 4 segundos
-            setTimeout(() => {
-                contenedorEsfera.classList.add('aparecer');
-            }, 4000); // 4000 milisegundos = 4 segundos. Puedes cambiar este número.
+        window.addEventListener('load', () => {
+            musica.play().catch(e => console.log("Esperando interacción para audio"));
         });
     </script>
-
 </body>
 </html>
