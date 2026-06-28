@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi amiga</title>
+    <style>
+        /* Reseteamos los márgenes y ocultamos lo que se salga de la pantalla */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0d0d0d; /* Un fondo casi negro para el drama */
+            overflow: hidden; 
+            font-family: 'Georgia', serif; /* Una fuente elegante por defecto */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Estilos del texto flotante */
+        .texto-flotante {
+            color: #6a23e3;
+            font-size: 3rem;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(187, 0, 255, 0.8); /* Resplandor rojo */
+            z-index: 10; /* Mantiene el texto por encima de las flores */
+            /* Llamamos a la animación de flotar */
+            animation: flotar 4s ease-in-out infinite;
+        }
+
+        /* Fotogramas de la animación de flotar */
+        @keyframes flotar {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-25px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Estilos base para cada flor generada */
+        .flor {
+            position: absolute;
+            top: -50px; /* Empiezan arriba, fuera de la pantalla */
+            user-select: none;
+            z-index: 1; /* Por debajo del texto */
+            animation: caer linear infinite; /* La caída constante */
+        }
+
+        /* Fotogramas para la caída dramática y rotación */
+        @keyframes caer {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="texto-flotante">
+        <h1>VICTORIA :D</h1>
+    </div>
+
+    <div id="contenedor-flores"></div>
+
+    <script>
+        const contenedor = document.getElementById('contenedor-flores');
+        
+        // --- PASO 1: MODIFICA ESTA LISTA ---
+        // Pon aquí los nombres exactos de tus archivos de imagen
+        const imagenesFlores = ['b.png', 'b1.png', 'b2.png']; 
+
+        function crearFlor() {
+            // En lugar de un div con texto, creamos un elemento <img>
+            const flor = document.createElement('img');
+            flor.classList.add('flor');
+            
+            // --- PASO 2: SELECCIÓN ALEATORIA ---
+            // Elegimos una imagen al azar de tu lista
+            const imagenAleatoria = imagenesFlores[Math.floor(Math.random() * imagenesFlores.length)];
+            flor.src = imagenAleatoria; // Asignamos la imagen a la etiqueta <img>
+            
+            // Mantenemos la lógica de posición y tamaño aleatorios
+            flor.style.left = Math.random() * 100 + 'vw';
+            flor.style.animationDuration = Math.random() * 4 + 3 + 's'; 
+            
+            // Ajustamos el ancho de las imágenes (entre 20px y 50px)
+            const ancho = Math.random() * 30 + 20 + 'px';
+            flor.style.width = ancho;
+            flor.style.height = 'auto'; // Mantiene la proporción
+
+            contenedor.appendChild(flor);
+
+            // Borramos la imagen después de caer para no saturar
+            setTimeout(() => {
+                flor.remove();
+            }, 7000);
+        }
+
+        // Creamos una nueva flor cada 200 milisegundos
+        setInterval(crearFlor, 200);
+    </script>
+
+</body>
+</html>
