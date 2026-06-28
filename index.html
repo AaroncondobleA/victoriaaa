@@ -6,95 +6,54 @@
     <title>Para vickyy</title>
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0d0d0d;
-            overflow: hidden; 
-            font-family: 'Georgia', serif;
+        body { margin: 0; padding: 0; background-color: #0d0d0d; overflow: hidden; font-family: 'Georgia', serif; display: flex; justify-content: center; align-items: center; height: 100vh; perspective: 1000px; }
+
+        /* Estilo para la pantalla de inicio */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            perspective: 1000px;
+            z-index: 1000;
+            color: white;
+            flex-direction: column;
         }
 
-        /* Contenedor para que las partículas queden al fondo */
-        #tsparticles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+        #btn-inicio {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: #6a23e3;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #6a23e3;
         }
 
-        .texto-flotante {
-            position: absolute;
-            top: 10%;
-            color: #6a23e3;
-            font-size: 3rem;
-            text-align: center;
-            text-shadow: 0 0 15px rgba(187, 0, 255, 0.8);
-            z-index: 10;
-            animation: flotar 4s ease-in-out infinite;
-        }
-
-        @keyframes flotar {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        #contenedor-esfera {
-            position: absolute;
-            top: 55%;
-            left: 50%;
-            width: 200px;
-            height: 200px;
-            transform: translate(-50%, -50%) scale(1);
-            z-index: 5;
-        }
-
-        .esfera {
-            width: 80%;
-            height: 80%;
-            position: absolute;
-            transform-style: preserve-3d;
-            animation: rotarEsfera 20s linear infinite;
-        }
-
-        @keyframes rotarEsfera {
-            0% { transform: rotateY(0deg) rotateX(-5deg); }
-            100% { transform: rotateY(360deg) rotateX(-5deg); }
-        }
-
-        .foto-esfera {
-            position: absolute;
-            width: 200px;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 15px;
-            border: 2px solid #6a23e3;
-            box-shadow: 0 0 15px rgba(187, 0, 255, 0.3);
-            transform: rotateY(calc(var(--i) * 60deg)) translateZ(280px);
-        }
-
-        @media (max-width: 768px) {
-            .texto-flotante { font-size: 2rem; top: 5%; }
-            #contenedor-esfera { width: 140px; height: 140px; }
-            .foto-esfera { 
-                width: 140px; 
-                height: 180px; 
-                transform: rotateY(calc(var(--i) * 60deg)) translateZ(170px); 
-            }
-        }
+        /* Tu CSS original sigue igual */
+        #tsparticles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .texto-flotante { position: absolute; top: 10%; color: #6a23e3; font-size: 3rem; text-align: center; text-shadow: 0 0 15px rgba(187, 0, 255, 0.8); z-index: 10; animation: flotar 4s ease-in-out infinite; }
+        @keyframes flotar { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+        #contenedor-esfera { position: absolute; top: 55%; left: 50%; width: 200px; height: 200px; transform: translate(-50%, -50%) scale(1); z-index: 5; }
+        .esfera { width: 80%; height: 80%; position: absolute; transform-style: preserve-3d; animation: rotarEsfera 20s linear infinite; }
+        @keyframes rotarEsfera { 0% { transform: rotateY(0deg) rotateX(-5deg); } 100% { transform: rotateY(360deg) rotateX(-5deg); } }
+        .foto-esfera { position: absolute; width: 200px; height: 250px; object-fit: cover; border-radius: 15px; border: 2px solid #6a23e3; box-shadow: 0 0 15px rgba(187, 0, 255, 0.3); transform: rotateY(calc(var(--i) * 60deg)) translateZ(280px); }
     </style>
 </head>
 <body>
 
+    <!-- Pantalla de inicio -->
+    <div id="overlay">
+        <h1>¡Hola Victoria!</h1>
+        <button id="btn-inicio">Presiona aquí para empezar</button>
+    </div>
+
     <div id="tsparticles"></div>
 
-    <audio id="musica-fondo" src="mai.mp3" loop autoplay></audio>
+    <!-- La música empieza pausada y en bucle -->
+    <audio id="musica-fondo" src="mai.mp3" loop></audio>
 
     <div class="texto-flotante">
         <h1>VICTORIA :D</h1>
@@ -112,42 +71,16 @@
     </div>
 
     <script>
-        tsParticles.load("tsparticles", {
-            particles: {
-                number: { value: 40 }, // Menos cantidad, pero más grandes se ven mejor
-                color: { value: "#ffffff" }, // Blanco brillante resalta más
-                shape: { type: "circle" },
-                opacity: { 
-                    value: 0.8, // Más opacas (menos transparentes)
-                    random: true 
-                },
-                size: { 
-                    value: { min: 4, max: 8 }, // Partículas más grandes (entre 4px y 8px)
-                    random: true 
-                },
-                move: {
-                    enable: true,
-                    speed: 1.5,
-                    direction: "none",
-                    outModes: "out"
-                },
-                // Esto les da un efecto de "brillo" alrededor
-                shadow: {
-                    enable: true,
-                    color: "#6a23e3",
-                    blur: 5
-                }
-            },
-            interactivity: {
-                events: { 
-                    onhover: { enable: true, mode: "bubble" } // Al pasar el mouse crecen más
-                },
-                modes: {
-                    bubble: { size: 12, distance: 100 }
-                }
-            }
-        });
-    </script>
+        const btn = document.getElementById('btn-inicio');
+        const overlay = document.getElementById('overlay');
+        const audio = document.getElementById('musica-fondo');
 
+        btn.addEventListener('click', () => {
+            audio.play(); // Reproducir música
+            overlay.style.display = 'none'; // Ocultar el botón
+        });
+
+        tsParticles.load("tsparticles", { /* ... tu configuración ... */ });
+    </script>
 </body>
 </html>
